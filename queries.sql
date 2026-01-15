@@ -1,7 +1,6 @@
 --считает общее количество клиентов
 SELECT COUNT(*) as customers_count
 FROM customers;
-
 --Топ 10 продавцов с наибольшей выручкой
 SELECT
     CONCAT(e.first_name, ' ', e.last_name) AS seller,
@@ -13,7 +12,6 @@ INNER JOIN products AS p ON s.product_id = p.product_id
 GROUP BY e.employee_id, e.first_name, e.last_name
 ORDER BY income DESC
 LIMIT 10;
-
 --Продавцы, чья выручка ниже средней выручки всех продавцов
 SELECT
     CONCAT(e.first_name, ' ', e.last_name) AS seller,
@@ -27,7 +25,6 @@ HAVING AVG(s.quantity * p.price) < (
     FROM sales AS s2
     INNER JOIN products AS p2 ON s2.product_id = p2.product_id)
 ORDER BY average_income ASC;
-
 -- Выручка по дням
 SELECT
     CONCAT(e.first_name, ' ', e.last_name) AS seller,
@@ -60,7 +57,6 @@ ORDER BY
         WHEN 0 THEN 7
     END,
     seller;
-
 --подсчет покупателей в разрезе возраста
 SELECT
     CASE
@@ -80,7 +76,6 @@ GROUP BY
         ELSE 'unknown'
     END
 ORDER BY age_category;
-
 -- данные по количеству уникальных покупателей и выручке
 SELECT
     TO_CHAR(s.sale_date, 'YYYY-MM') AS selling_month,
@@ -90,7 +85,6 @@ FROM sales AS s
 INNER JOIN products AS p ON s.product_id = p.product_id
 GROUP BY TO_CHAR(s.sale_date, 'YYYY-MM')
 ORDER BY TO_CHAR(s.sale_date, 'YYYY-MM');
-
 --отчет о покупателях, первая покупка которых была 
 --в ходе проведения акций
 WITH first_purchases AS 
