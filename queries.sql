@@ -18,6 +18,7 @@ WITH avg_income_all AS (
     FROM sales AS s2
     LEFT JOIN products AS p2 ON s2.product_id = p2.product_id
 )
+
 SELECT
     CONCAT(e.first_name, ' ', e.last_name) AS seller,
     FLOOR(AVG(s.quantity * p.price)) AS average_income
@@ -25,12 +26,12 @@ FROM sales AS s
 LEFT JOIN employees AS e ON s.sales_person_id = e.employee_id
 LEFT JOIN products AS p ON s.product_id = p.product_id
 GROUP BY e.employee_id, e.first_name, e.last_name
-HAVING AVG(s.quantity * p.price) < (SELECT global_avg FROM avg_income_all)
+HAVING AVG(s.quantity * p.price) < (SELECT a.global_avg FROM avg_income_all AS a)
 ORDER BY average_income ASC;
 -- Выручка по дням недели
 SELECT
     CONCAT(e.first_name, ' ', e.last_name) AS seller,
-    TO_CHAR(s.sale_date, 'Day') AS day_of_week,  
+    TO_CHAR(s.sale_date, 'Day') AS day_of_week,
     FLOOR(SUM(s.quantity * p.price)) AS income
 FROM sales AS s
 LEFT JOIN employees AS e ON s.sales_person_id = e.employee_id
@@ -84,7 +85,7 @@ WITH first_purchases AS (
         ) AS rn
     FROM sales AS s
     LEFT JOIN products AS p ON s.product_id = p.product_id
-    WHERE p.price = 0 
+    WHERE p.price = 0
 )
 
 SELECT
