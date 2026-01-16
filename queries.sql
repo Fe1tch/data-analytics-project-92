@@ -26,7 +26,8 @@ FROM sales AS s
 LEFT JOIN employees AS e ON s.sales_person_id = e.employee_id
 LEFT JOIN products AS p ON s.product_id = p.product_id
 GROUP BY e.employee_id, e.first_name, e.last_name
-HAVING AVG(s.quantity * p.price) < (SELECT a.global_avg FROM avg_income_all AS a)
+HAVING AVG(s.quantity * p.price)
+    < (SELECT a.global_avg FROM avg_income_all AS a)
 ORDER BY average_income ASC;
 -- Выручка по дням недели
 SELECT
